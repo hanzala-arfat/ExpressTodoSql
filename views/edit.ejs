@@ -1,0 +1,81 @@
+ <%- include('includes/head.ejs') %>
+    <title>Edit Page</title>
+  </head>
+  <body>
+    <div>
+      <div>
+        <nav class="navbar mb-3 navbar-light bg-light">
+         <h5 style="margin-left: 300px" > Eiditing Page</h5> 
+        </nav>
+     </div>
+    
+        <div class=" w-50 p-3" style="margin-left: 200px">
+            <!-- <form action="/edit-todo" method="POST"> -->
+              <div class="form-group ">
+                <label >ToDo Title</label>
+                <input
+                id="todoTitle"
+                  type="text"
+                  class="form-control shadow-sm"
+                  name="title"
+                  value =" <%= singletodo.title %>"
+                />
+              </div>
+              <div class="form-group" col-sm-10>
+                <label>Todo Data </label>
+                <input
+                  id="todoData"
+                  type="text"
+                  name="data"
+                  class="form-control shadow-sm"
+                  value=" <%= singletodo.data %>"
+                />
+                <input
+                  style="display:none"
+                  id="todoId"
+                  type="text"
+                  name="id"
+                  class="form-control"
+                  value=" <%= singletodo.todo_id %>"
+                />
+                <input
+                  style="display:none"
+                  id="userid"
+                  type="text"
+                  name="id"
+                  class="form-control"
+                  value=" <%= singletodo.fuserId %>"
+                />
+              </div>
+              <button type="submit" id="todoSubmit"  class="btn btn-primary" value="submit">
+                Submit
+              </button>
+          </div>
+    </div>   
+    <script>
+      $(document).ready(function(){
+        console.log("edit page")
+        $('#todoSubmit').click(function(){
+          const todoid =$('#todoId').attr('value');
+          const userid =$("#userid").attr('value');
+          const title = $('#todoTitle').val();
+          const data = $('#todoData').val();
+          console.log(todoid,userid, title,data)
+          
+					
+          $.post(`http://localhost:3000/edit-todo`,{ todoid,userid, title, data }, function(data,status){
+            console.log("getid and todoid",data)
+            const userid = data.userid;
+            const todoid = data.todoid;
+            window.location.href = `/user-data/:${userid}`
+
+        })
+      })
+
+    });  
+
+     
+      
+    </script> 
+  </body>
+</html>

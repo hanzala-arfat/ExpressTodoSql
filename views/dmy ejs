@@ -1,0 +1,32 @@
+ <form>
+      <div class="form-group">
+        <label>ToDo Title</label>
+        <input type="text" class="form-control" placeholder="Enter Title" />
+      </div>
+      <div class="form-group">
+        <label >Todo Data </label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder=" Enter Todo Data"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+
+
+     <form action="/add-todo" method="POST">
+      <input type="text" name="title" placeholder="Enter Todo Data" />
+      <input type="text" name="data" placeholder="Enter Todo Data" />
+
+      <button type="submit" value="submit">Submit</button>
+    </form>
+
+
+    fetch("post", {
+            url: "hjdkfsgh",
+            data: {
+              index: i
+            }
+          });

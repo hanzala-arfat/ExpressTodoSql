@@ -1,0 +1,91 @@
+<%- include('includes/head.ejs') %>
+  </head>
+  <body>
+      <div class="cantaner bg-info">
+        <div class="row">
+            <nav class="navbar fixed-top mb-3 navbar-light bg-light">
+            <a class="navbar-brand col-4 " id="addTodo">AddTodo</a>
+             <h6 class="col-4 ml-2" > THINGS TO DO</h6> 
+                <a class="navbar-brand" id="logout">Logout</a>
+
+            </nav> 
+        </div>
+        <div>
+            <% if (todoData) { %>
+              <div class="row vh-100">
+                  <div class="col-sm-2 col-md-3"></div>
+                   <div class="card col-sm-8 col-md-6 " style="width: 29rem; margin-top: 20px;">
+                    <ul class="list-group list-group-flush ">
+                    <% todoData.forEach(function(data, key){ %>
+                      <li id="Todo" class="list-group-item shadow ">
+                      <h4 class="card-title"><%= data.title %> </h4>
+                      <p class="cord-text text-justify m-1"> <%= data.data %></p>
+                      <span  class="cord-id"  id="todo_id" style="display: none"> <%= data.todo_id %></span>
+                      <button type="button"  id="<%= data.todo_id %>"  class="btn-edit btn pl-3 pr-3  m-2 btn-primary">
+                       Edit
+                       </button>
+                       <button type="button" id="<%= data.todo_id %>" class="btn-delete btn-primary m-2 " style="float:right;">
+                         Delete
+                        </button>
+                        </li>
+                  <% }); %>
+                </ul>
+                </div>
+                <div class="col-sm-2 col-md-3"></div>
+                </div>
+            <% } %>
+        </div>  
+       
+
+      </div>
+    <script>
+
+      $(document).ready(function() {
+        console.log("script inside tag");
+        let fuserid = localStorage.getItem("user_id");
+        $(".btn-edit").click(function() { 
+          console.log ("eidit parts");
+          const id    = this.id;
+          const userid = localStorage.getItem("user_id")
+          console.log("will be edited Todoid ..",id)
+          const title = $("#"+id).find("h4").text();
+          const data = $("#"+id).find("p").text();
+
+          // $.get(`http://localhost:3000/edit-todo/${id},${userid}`,function(data, status){
+          //   console.log(status)
+          //   console.log(data) //server k send kiye ho liya gya h
+          //   const userid = data.fuserid;
+          //   const todoid = data.todo_id;
+          //  // window.location.href = `edit-todo/${todoid}`
+           window.location.href = `/edit-todo/${userid},${id}` // get bina call back func k
+          // })
+        });  
+
+        $("#addTodo").click(function(){
+          const userid = localStorage.getItem("user_id");
+          window.location.href = `/add-todo/:${userid}`
+        });
+        
+      $(".btn-delete").click(function(){
+         const todoid =this.id;
+         const userid = localStorage.getItem("user_id");
+        console.log("delt clicked", todoid)
+        $.get(`http://localhost:3000/delete-todo/${userid},${todoid}`,function (data , status){
+          location.reload();
+        })
+      })
+      
+      $("#logout").click(function(){
+          const userid = localStorage.getItem("user_id");
+          $.post(`http://localhost:3000/logOutUser/:${userid}`,{userid},function(data,status){
+
+          window.location.href = `/login-user`
+          alert("Successfully Log out user",userid)
+        
+          })
+        })
+
+    });
+    </script>
+  </body>
+</html>

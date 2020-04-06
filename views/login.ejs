@@ -1,0 +1,60 @@
+
+<%- include('includes/head.ejs') %>
+<title>Logi Page</title>
+</head> 
+<body>
+      <div class="fixed-top">
+          <nav class="navbar  p-3 navbar-light bg-light">
+           <h5 class="ml-4"> THINGS TO DO</h5> 
+           <a class="navbar-brand mr-5" href="/">Register</a>
+          </nav>
+          <div class="row mt-2">
+            <div class="col-3"></div>
+            <div class="col-6 ">
+                <!-- <form action="/add-user" method="POST"> -->
+                    <div class="form-group">
+                      <label for="username">Enter User Name:</label>
+                      <input type="text" name="username" class="form-control" placeholder="Enter user name" id="username">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="pwd">Password:</label>
+                      <input type="password" name="pass" class="form-control" placeholder="Enter password" id="pwd">
+                    </div>
+
+                    <button type="submit" id="login" class="btn btn-primary">Login</button>
+                  <!-- </form> -->
+            </div>
+            <div class="col-3"></div>
+          </div>
+
+        <script>
+            $(document).ready(function(){
+                $("#login").click(function(){
+                  var user = $("#username").val();
+                  var pass = $("#pwd").val();
+                  console.log("user name and pasward", user, pass)  
+
+                  $.post(`http://localhost:3000/login-user/:${user}`,{ user, pass }, function(data,status){
+                    console.log("Recived user id from server ", data.user_id)
+                    localStorage.setItem("user_id",data.user_id)
+                    let userid = localStorage.getItem("user_id")
+                    console.log(status)
+                    if(data.user_id){
+                      console.log("success full login")
+                      window.location.href = `/user-data/:${userid}`
+                    }else{
+                      console.log("wrong input user or password")
+                      alert("Incorrect Username Or  Password");
+                      window.location.href = `/login-user/`
+                    }
+                    
+
+                
+                })
+
+            })
+        });
+        </script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+
+<%- include('includes/head.ejs') %>
+    <title>Register Page</title>
+  </head> 
+  <body>
+          <div class="fixed-top">
+              <nav class="navbar  p-3 navbar-light bg-light">
+               <h5 class="ml-4"> THINGS TO DO</h5> 
+               <a class="navbar-brand mr-5" href="login-user">LOGIN</a>
+              </nav>
+              <div class="row mt-2">
+                <div class="col-3"></div>
+                <div class="col-6 ">
+                    <!-- <form action="/add-user" method="POST"> -->
+                        <div class="form-group">
+                          <label for="username">Enter User Name:</label>
+                          <input type="text" name="username" class="form-control user" placeholder="Enter user name" id="email">
+                        </div>
+
+                        <div class="form-group">
+                          <label for="pwd">Password:</label>
+                          <input type="password" name="pass" class="form-control pass" placeholder="Enter password" id="pwd">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cpwd">Confirm Password:</label>
+                            <input type="password" name="cpass" class="form-control cpass" placeholder="Enter confirm password" id="pwd">
+                          </div>
+
+
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                      
+                </div>
+                <div class="col-3"></div>
+              </div>
+              
+              <script>
+                   $(document).ready(function() {
+                  console.log("script inside tag registar page");
+                  // for edit 
+                  $("button").click(function() { 
+                    const username = $(".user").val();
+                    const pass     = $(".pass").val();
+                    const cpass    = $(".cpass").val();
+                    console.log(username,pass,cpass)
+                    if(pass != cpass){
+                      alert("Incorect password")
+                      window.location.href = `/`
+                    }
+                  else{
+                    $.post(`http://localhost:3000/add-user`,{  username, pass }, function(data,status){
+                    //console.log("this is data from login page", data) note ager server res.send me jo bhejhega wahi data hoga
+                    if(status === 'success'){
+                      alert("Successfull Registerg")
+                      window.location.href = `/login-user`
+                    }
+                })
+                  }
+
+                    
+
+                    // $.get(`http://localhost:3000/edit-todo/${id}`,function(data, status){
+
+                    //   window.location.href = `edit-todo/${id}`
+                    // })
+                  });  
+                });
+              </script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<%- include('includes/head.ejs') %>
+<title>ToDo list</title>
+  </head>
+
+  <body>
+    <div>
+      <div>
+          <nav class="navbar mb-3 navbar-light bg-light">
+           <h5 style="margin-left:40px" >Wellcom Adding Todo Page  </h5>  
+           <p class="navbar-brand mr-5" id="logout" >LogOut</p>
+          </nav>
+       </div>
+          
+<div class="w-50 p-3" style="margin-left:15rem">
+  <!-- <form action="/todo-data-post" method="POST"> -->
+    
+    <div class="form-group data"  col-sm-10>
+        <label>Todo Tittle</label>
+        <input
+          type="text"
+          name="title"
+          class="form-control title" required
+          placeholder=" Enter Todo Data"
+        />
+      </div>
+
+    <div class="form-group data"  col-sm-10>
+      <label>Todo Data </label>
+      <input
+        type="text"
+        name="data"
+        class="form-control tdata" required
+        placeholder=" Enter Todo Data"
+      />
+    </div>
+
+    <button type="submit" class="btn  btn-primary" value="submit">
+      Submit
+    </button>
+</div>
+</div>
+<script>
+   $(document).ready(function() {
+        console.log("script inside tag"); 
+          $("button").click(function() { 
+            const title = $(".title").val();
+            const data = $(".tdata").val();
+            const userid = localStorage.getItem("user_id")
+            console.log(title,data,userid)
+            
+            $.post(`http://localhost:3000/todo-data-post/:${userid}`,{title,data,userid},function(data,status){
+              console.log("status is..",status)
+                alert("Successfully data inserted")
+                window.location.href =`/user-data/${userid}`
+            })
+          });  
+
+        $("#logout").click(function(){
+          const userid = localStorage.getItem("user_id");
+          $.post(`http://localhost:3000/logOutUser/:${userid}`,{userid},function(data,status){
+
+          window.location.href = `/login-user`
+          alert("Successfully Log out user",userid)
+          // if(userid){
+          //  localStorage.removeItem('user_id')
+          // }
+
+          })
+        })
+      });
+</script>
+  </body>
+  </html>
